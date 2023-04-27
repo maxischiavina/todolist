@@ -19,6 +19,11 @@ const Home = () => {
 			setTareaIngresada('');
 console.log(items)
 		}
+		function borrarTarea(index){
+			const nuevasTareas = items.filter((tarea) => tarea.id !== id);
+    setItems(nuevasTareas);
+		}
+
 	
 
 	return (
@@ -29,10 +34,17 @@ console.log(items)
   <div className="mb-3">
     <label for="exampleInputEmail1" className="form-label text-center"><h1 classNameName="text-center mt-5">todos</h1></label>
     <input type="task" value={tareaIngresada} onChange={handleChange} className="form-control" id="task" placeholder="What needs to be done?" />
-    <div id="task" className="form-text">{items.map((item, index)=> (<li key={index}>{item}</li>))}</div>
+    <div id="task" className="form-text">
+		
+		{items.map((item, index)=> (<p className="border m-0" key={index}>{item}<button
+              type="button" className="btn-close" aria-label="Close" onClick={() => borrarTarea(index)}
+            ></button></p>))}
+		
+		
+		
+		</div>
   </div>
   
-  <button type="submit" className="btn btn-primary">Submit</button>
 </form>
 			
 		</div>
