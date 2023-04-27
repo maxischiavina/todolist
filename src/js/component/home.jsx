@@ -5,26 +5,31 @@ import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component
 const Home = () => {
-	const [tareaIngresada, setTareaIngresada] = useState("");
-	const [lista, setLista] = useState("");
-	
 
-	function agregarTarea(event){
-		event.preventDefault()
-		const nuevaTarea = {id: Date.now(), texto: tareaIngresada};
-		setLista([...tareas, nuevaTarea]);
-		setTareaIngresada("");
-	}
+		const [items, setItems]= useState([]);
+		const [tareaIngresada, setTareaIngresada]= useState("");
+
+		function handleChange(event){
+		setTareaIngresada(event.target.value);
+		}
+
+		function handleSubmit(event){
+			event.preventDefault();
+			setItems([...items, tareaIngresada]);
+			setTareaIngresada('');
+console.log(items)
+		}
+	
 
 	return (
 		<div classNameName="text-center">
-			<h1 classNameName="text-center mt-5">todos</h1>
+		
 
-			<form onSubmit={agregarTarea}>
+			<form onSubmit={handleSubmit}>
   <div className="mb-3">
-    <label for="exampleInputEmail1" className="form-label">Email address</label>
-    <input type="task" onChange={(event)=> (setTareaIngresada(event.target.value), console.log(tareaIngresada) )} className="form-control" id="task" aria-describedby="emailHelp" />
-    <div id="task" className="form-text">We'll never share your email with anyone else.</div>
+    <label for="exampleInputEmail1" className="form-label text-center"><h1 classNameName="text-center mt-5">todos</h1></label>
+    <input type="task" value={tareaIngresada} onChange={handleChange} className="form-control" id="task" placeholder="What needs to be done?" />
+    <div id="task" className="form-text">{items.map((item, index)=> (<li key={index}>{item}</li>))}</div>
   </div>
   
   <button type="submit" className="btn btn-primary">Submit</button>
