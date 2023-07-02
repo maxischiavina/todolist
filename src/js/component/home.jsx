@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
 //include images into your bundle
 import rigoImage from "../../img/rigo-baby.jpg";
@@ -8,22 +8,43 @@ const Home = () => {
 
 		const [items, setItems]= useState([]);
 		const [tareaIngresada, setTareaIngresada]= useState("");
+
+		useEffect(() => {
+			obtenerTareas()
+		}, []);
 	
 
 function handleChange(event){
 		setTareaIngresada(event.target.value);
 		}
 
-		function handleSubmit(event){
+function handleSubmit(event){
 			event.preventDefault();
 			setItems([...items, tareaIngresada]);
 			setTareaIngresada('');
-console.log(items)
 		}	
-		function borrarTarea(index){
+
+function borrarTarea(index){
 			const nuevasTareas = items.filter((tarea, i) => i !== index);
-    setItems(nuevasTareas);
+    		setItems(nuevasTareas);
 		}
+
+
+function obtenerTareas() {
+			fetch('https://assets.breatheco.de/apis/fake/todos/user/maxischiavina')
+			  .then(response => response.json())
+			  .then(data => setItems([data]))
+			  .catch(err => console.log(err));
+		  }
+
+function eliminarTareas() {
+			fetch('https://assets.breatheco.de/apis/fake/todos/user/maxischiavina')
+			  .then(response => response.json())
+			  .then(data => setItems([data]))
+			  .catch(err => console.log(err));
+		  }
+
+
 		
 	
 
@@ -35,19 +56,18 @@ console.log(items)
 			<form onSubmit={handleSubmit}>
 				
   <div className="mb-3 w-100">
-    <label for="exampleInputEmail1" className="form-label "><h1 classNameName="text-center mt-5 fs-6">todos</h1></label>
-    <input type="task" value={tareaIngresada} onChange={handleChange} className="form-control fs-5 m-0 p-0" id="task" placeholder="What needs to be done?" />
+    <label for="exampleInputEmail1" className="form-label col-12"><h1 className="text-center mt-5 fs-6">Todos:</h1></label>
+    <input type="task" value={tareaIngresada} onChange={handleChange} className="form-control fs-5 col-12 m-0 p-0" id="task" placeholder="What needs to be done?" />
     <div id="task" className="form-text">
 		
-		{items.map((item, index)=> (<p className="border m-0 fs-4" key={index}>{item}<button
-              type="button" className="btn-close" aria-label="Close" onClick={() => borrarTarea(index)}
-            ></button></p>))}
-		<p>tareas left</p>
-		
+		{items.map((item, index)=> (<p className="border m-0 fs-4 d-flex justify-content-between" key={index}>{item}
+		<button 
+		type="button" className="btn-close " aria-label="Close" onClick={() => borrarTarea(index)}>
+		</button></p>))}
 		
 		</div>
+		<p>{items.length} tareas left</p>
   </div>
-  
 </form>		
 		</div>
 		</div>
